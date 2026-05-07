@@ -75,5 +75,6 @@ python main.py
 ---
 
 ## 🧑‍💻 Author
-
-Built with Python 🐍 to kill boring manual work.
+- Name: Dhanush C G
+- GitHub: https://github.com/cgdhanush
+- Built with Python 🐍 to kill boring manual work.
