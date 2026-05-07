@@ -1,6 +1,6 @@
 import time
-import json
 from client import VTUClient
+from load import load_entries, validate_all_entries
 
 
 for attempt in range(3):
@@ -26,8 +26,11 @@ internship_id = (
     internship_response.get("data", {}).get("data", [])[0].get("internship_id")
 )
 
-with open("entries.json", "r") as f:
-    entries_data = json.load(f)
+
+# Load + validate
+entries_data = load_entries()
+validate_all_entries(entries_data)
+
 
 # Add internship_id to each entry
 Entries = []
