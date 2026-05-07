@@ -74,6 +74,51 @@ Run the script:
 ```bash
 python main.py
 ```
+---
+
+## Internship Diary Tool
+
+### ▶️ How to Run
+
+Run the script:
+
+```bash
+python diary.py
+```
+
+
+### 📋 Menu Options
+
+After login:
+
+```
+1) Diaries to pdf
+2) Check missing dates
+3) Exit
+```
+
+---
+
+## 🧠 How It Works
+
+### 1. Fetch Diaries
+
+* Pulls paginated diary data from VTU API
+* Removes duplicate links
+* Shows progress bar while fetching
+
+### 2. Generate PDF
+
+* Formats data into table layout
+* Saves as `diary.pdf`
+
+### 3. Missing Dates
+
+* Compares stored diary dates
+* Generates full date range
+* Outputs missing entries
+
+---
 
 ## ⚠️ Notes
 
@@ -87,6 +132,7 @@ python main.py
 
 * 🔁 Auto retry failed entries
 * 📝 Save logs to file
+
 * 📊 Progress dashboard
 * ⚡ Async submission for speed
 

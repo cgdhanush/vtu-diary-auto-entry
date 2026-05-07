@@ -9,7 +9,8 @@ def get_all_diaries(client: VTUClient):
 
     seen = set()
     links = [
-        x for x in links_res["data"]["links"]
+        x
+        for x in links_res["data"]["links"]
         if x.get("url") and not (x["url"] in seen or seen.add(x["url"]))
     ]
 
@@ -25,7 +26,8 @@ def get_all_diaries(client: VTUClient):
 
     return diary
 
-def to_pdf(dairy, filename="diary.pdf"):
+
+def to_pdf(diary, filename="diary.pdf"):
 
     class PDF(FPDF):
         def header(self):
@@ -47,7 +49,7 @@ def to_pdf(dairy, filename="diary.pdf"):
 
     pdf.set_font("Helvetica", size=9)
 
-    for d in dairy:
+    for d in diary:
         pdf.cell(col_widths[0], 8, str(d.get("date", "")), border=1)
         pdf.cell(col_widths[1], 8, str(d.get("description", ""))[:40], border=1)
         pdf.cell(col_widths[2], 8, str(d.get("hours", "")), border=1)
@@ -62,9 +64,9 @@ def to_pdf(dairy, filename="diary.pdf"):
     pdf.output(filename)
 
 
-def missing_dates(dairy):
-    
-    existing_dates = set(item['date'] for item in dairy)
+def missing_dates(diary):
+
+    existing_dates = set(item["date"] for item in diary)
 
     # Date range
     start_date = datetime.strptime(input("Enter start date (YYYY-MM-DD): "), "%Y-%m-%d")
@@ -90,7 +92,7 @@ def missing_dates(dairy):
         d.strftime("%Y-%m-%d")
         for d in all_dates
         if d.strftime("%Y-%m-%d") not in existing_dates
-        and d.weekday() < 5   # 0=Mon ... 6=Sun
+        and d.weekday() < 5  # 0=Mon ... 6=Sun
     ]
 
     # Output
@@ -117,11 +119,13 @@ if __name__ == "__main__":
 
             if attempt == 2:
                 print("Maximum login attempts reached.")
-    
+
     diary = get_all_diaries(client)
 
     while True:
-        choice = int(input("1) Diaries to pdf \n2) Check missing dates\n3) Exit\nEnter choice: "))
+        choice = int(
+            input("1) Diaries to pdf \n2) Check missing dates\n3) Exit\nEnter choice: ")
+        )
 
         if choice == 1:
             to_pdf(diary)
