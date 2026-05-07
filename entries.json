@@ -1,0 +1,12 @@
+[
+  {
+    "date": "2026-04-13",
+    "description": "Learned the stages involved in the Vulnerability Assessment lifecycle from discovery to remediation",
+    "hours": 4,
+    "links": "",
+    "blockers": "",
+    "learnings": "Understood how to identify, assess, prioritize, and manage security vulnerabilities effectively.",
+    "mood_slider": 5,
+    "skill_ids": ["3"]
+  }
+]
