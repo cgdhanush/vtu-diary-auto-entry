@@ -99,27 +99,6 @@ After login:
 
 ---
 
-## 🧠 How It Works
-
-### 1. Fetch Diaries
-
-* Pulls paginated diary data from VTU API
-* Removes duplicate links
-* Shows progress bar while fetching
-
-### 2. Generate PDF
-
-* Formats data into table layout
-* Saves as `diary.pdf`
-
-### 3. Missing Dates
-
-* Compares stored diary dates
-* Generates full date range
-* Outputs missing entries
-
----
-
 ## ⚠️ Notes
 
 * Keep your login credentials safe 🔐
