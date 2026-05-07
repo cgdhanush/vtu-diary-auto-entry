@@ -1,6 +1,6 @@
 import json
+import re
 from datetime import datetime, timedelta
-
 from openai import OpenAI
 
 
@@ -16,6 +16,25 @@ def generate_dates(start_date, end_date):
     return dates
 
 
+def safe_json_load(content: str):
+    """Robust JSON parser fallback"""
+    content = content.strip()
+
+    # remove markdown fences
+    content = re.sub(r"```(json)?", "", content).replace("```", "").strip()
+
+    # try strict parse first
+    try:
+        return json.loads(content)
+    except json.JSONDecodeError:
+        pass
+
+    # fallback: fix common LLM mistakes
+    content = content.replace("'", '"')
+
+    return json.loads(content)
+
+
 def generate_entries(
     client: OpenAI,
     internship_domain,
@@ -23,7 +42,7 @@ def generate_entries(
     end_date,
     hours_per_day,
     skill_ids,
-    tone="student-like",
+    tone="student like"
 ):
     dates = generate_dates(start_date, end_date)
 
@@ -32,14 +51,16 @@ Generate internship diary entries in STRICT JSON format.
 
 RULES:
 - One entry per date
-- Each entry must be unique and progressive (no repetition)
-- Keep description and learnings short (1–2 lines)
+- Must be valid JSON array ONLY
+- No markdown, no explanation
+- No single quotes allowed
 - Domain: {internship_domain}
 - Tone: {tone}
-- Hours per day: {hours_per_day} do not change this
-- skill_ids: {skill_ids} do not change these
+- skill_ids must be exactly: {json.dumps(skill_ids)}
+- Hours per day must be: {hours_per_day}
 
-RETURN ONLY VALID JSON ARRAY. NO MARKDOWN.
+DATES:
+{json.dumps(dates)}
 
 FORMAT:
 [
@@ -47,15 +68,12 @@ FORMAT:
     "date": "YYYY-MM-DD",
     "description": "short work done",
     "hours": {hours_per_day},
-    "skill_ids": {skill_ids},
+    "skill_ids": {json.dumps(skill_ids)},
     "links": "",
     "blockers": "",
     "learnings": "short learning"
   }}
 ]
-
-DATES:
-{dates}
 """
 
     response = client.chat.completions.create(
@@ -63,21 +81,16 @@ DATES:
         messages=[
             {
                 "role": "system",
-                "content": "You are a strict JSON generator for internship diaries.",
+                "content": "You output ONLY valid JSON. No markdown. No text.",
             },
             {"role": "user", "content": prompt},
         ],
-        temperature=0.7,
-        max_tokens=min(len(dates) * 120, 1800),
+        temperature=0.2,
+        max_tokens=1800,
+
+        response_format={"type": "json_object"},
     )
 
-    content = response.choices[0].message.content.strip()
+    content = response.choices[0].message.content
 
-    # Remove markdown if model adds it
-    if "```" in content:
-        content = content.replace("```json", "").replace("```", "").strip()
-
-    try:
-        return json.loads(content)
-    except json.JSONDecodeError:
-        raise ValueError(f"Invalid JSON returned by model:\n{content}")
+    return safe_json_load(content)

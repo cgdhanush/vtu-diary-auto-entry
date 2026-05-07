@@ -2,11 +2,14 @@ import json
 import os
 from datetime import datetime
 
-FILE_PATH = "data/entries.json"
+from pathlib import Path
 
-# Default empty structure
-DEFAULT_DATA = []
+DEFAULT_DATA = {}
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+FILE_PATH = BASE_DIR / "data" / "entries.json"
+
+FILE_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 def create_file_if_not_exists():
     if not os.path.exists(FILE_PATH):
@@ -20,7 +23,7 @@ def load_entries():
         try:
             return json.load(f)
         except json.JSONDecodeError:
-            return []
+            return {}
 
 
 def validate_entry(entry):
@@ -32,7 +35,7 @@ def validate_entry(entry):
         "blockers": str,
         "learnings": str,
         "mood_slider": int,
-        "skill_ids": list
+        "skill_ids": list,
     }
 
     # Check missing keys
