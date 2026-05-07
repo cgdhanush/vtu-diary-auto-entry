@@ -50,6 +50,24 @@ Move into the project directory:
 ```bash
 cd vtu-diary-auto-entry
 ```
+### 3. Add your diary entries
+
+Open `entries.json` and add entries in the following format:
+
+```json
+[
+  {
+    "date": "2026-04-13",
+    "description": "Learned the stages involved in the Vulnerability Assessment lifecycle",
+    "hours": 4,
+    "links": "",
+    "blockers": "",
+    "learnings": "Understood vulnerability identification and remediation process.",
+    "mood_slider": 5,
+    "skill_ids": ["3"]
+  }
+]
+```
 
 Run the script:
 
