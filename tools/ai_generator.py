@@ -1,50 +1,18 @@
 import json
-import re
-from datetime import datetime, timedelta
 from openai import OpenAI
 
+from tools.utils import safe_json_load
 
-def generate_dates(start_date, end_date):
-    start = datetime.strptime(start_date, "%Y-%m-%d")
-    end = datetime.strptime(end_date, "%Y-%m-%d")
-
-    dates = []
-    while start <= end:
-        dates.append(start.strftime("%Y-%m-%d"))
-        start += timedelta(days=1)
-
-    return dates
-
-
-def safe_json_load(content: str):
-    """Robust JSON parser fallback"""
-    content = content.strip()
-
-    # remove markdown fences
-    content = re.sub(r"```(json)?", "", content).replace("```", "").strip()
-
-    # try strict parse first
-    try:
-        return json.loads(content)
-    except json.JSONDecodeError:
-        pass
-
-    # fallback: fix common LLM mistakes
-    content = content.replace("'", '"')
-
-    return json.loads(content)
 
 
 def generate_entries(
     client: OpenAI,
     internship_domain,
-    start_date,
-    end_date,
+    dates,
     hours_per_day,
     skill_ids,
     tone="student like"
 ):
-    dates = generate_dates(start_date, end_date)
 
     prompt = f"""
 Generate internship diary entries in STRICT JSON format.

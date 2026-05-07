@@ -7,7 +7,7 @@ from openai import OpenAI
 from tools.client import VTUClient
 from tools.load import load_entries, validate_all_entries
 from tools.ai_generator import generate_entries
-from tools.utils import ask_int, ask_required, ask_skills
+from tools.utils import ask_int, ask_required, ask_skills, generate_dates
 
 FILE_PATH = "data/entries.json"
 
@@ -44,11 +44,22 @@ if __name__ == "__main__":
 
         domain = ask_required("Internship domain: ")
 
-        start_date = ask_required("Start date (YYYY-MM-DD): ")
-        end_date = ask_required("End date (YYYY-MM-DD): ")
+        mode = ask_required("Choose input mode (range / list): ").strip().lower()
+
+        if mode == "range":
+            start_date = ask_required("Start date (YYYY-MM-DD): ")
+            end_date = ask_required("End date (YYYY-MM-DD): ")
+            dates = generate_dates(start_date, end_date)
+
+        elif mode == "list":
+            raw = ask_required("Enter dates (comma-separated YYYY-MM-DD): ")
+            dates = [d.strip() for d in raw.split(",") if d.strip()]
+
+        else:
+            raise ValueError("Invalid mode. Choose 'range' or 'list'.")
+        
         hours = ask_int("Hours per day (default 4): ", 4)
         skills = ask_skills("Skill IDs (default 3): ")
-
 
         # OpenRouter client
         ai_client = OpenAI(
@@ -59,8 +70,7 @@ if __name__ == "__main__":
         generated_data = generate_entries(
             client=ai_client,
             internship_domain=domain,
-            start_date=start_date,
-            end_date=end_date,
+            dates=dates,
             hours_per_day=hours,
             skill_ids=skills,
         )
