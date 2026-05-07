@@ -2,7 +2,7 @@ import json
 import os
 from datetime import datetime
 
-FILE_PATH = "entries.json"
+FILE_PATH = "data/entries.json"
 
 # Default empty structure
 DEFAULT_DATA = []

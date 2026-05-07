@@ -1,6 +1,6 @@
 from fpdf import FPDF
 from tqdm import tqdm
-from client import VTUClient
+from tools.client import VTUClient
 from datetime import datetime, timedelta
 
 

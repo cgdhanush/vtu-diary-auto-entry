@@ -1,3 +1,5 @@
 fpdf
 tqdm
 requests
+openrouter
+python-dotenv
