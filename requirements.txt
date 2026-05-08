@@ -1,4 +1,4 @@
-fpdf
+weasyprint
 tqdm
 requests
 openrouter

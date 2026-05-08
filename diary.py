@@ -1,7 +1,7 @@
-from fpdf import FPDF
 from tqdm import tqdm
 from tools.client import VTUClient
 from datetime import datetime, timedelta
+from weasyprint import HTML
 
 
 def get_all_diaries(client: VTUClient):
@@ -27,41 +27,87 @@ def get_all_diaries(client: VTUClient):
     return diary
 
 
+def clean(text):
+    if not text:
+        return ""
+    return (
+        str(text)
+        .replace("’", "'")
+        .replace("‘", "'")
+        .replace("“", '"')
+        .replace("”", '"')
+        .replace("—", "-")
+        .replace("–", "-")
+    )
+
+
 def to_pdf(diary, filename="diary.pdf"):
 
-    class PDF(FPDF):
-        def header(self):
-            self.set_font("Helvetica", "B", 14)
-            self.cell(0, 10, "Internship Diaries", ln=True, align="C")
-            self.ln(5)
-
-    pdf = PDF()
-    pdf.add_page()
-    pdf.set_font("Helvetica", size=10)
-
-    headers = ["Date", "Description", "Hours", "Mood", "Status", "Internship"]
-    col_widths = [25, 70, 15, 15, 15, 50]
-
-    pdf.set_font("Helvetica", "B", 10)
-    for i, h in enumerate(headers):
-        pdf.cell(col_widths[i], 8, h, border=1)
-    pdf.ln()
-
-    pdf.set_font("Helvetica", size=9)
+    rows = ""
 
     for d in diary:
-        pdf.cell(col_widths[0], 8, str(d.get("date", "")), border=1)
-        pdf.cell(col_widths[1], 8, str(d.get("description", ""))[:40], border=1)
-        pdf.cell(col_widths[2], 8, str(d.get("hours", "")), border=1)
-        pdf.cell(col_widths[3], 8, str(d.get("mood_slider", "")), border=1)
-        pdf.cell(col_widths[4], 8, str(d.get("status", "")), border=1)
+        rows += f"""
+        <tr>
+            <td>{clean(d.get('date', ''))}</td>
+            <td>{clean(d.get('description', ''))}</td>
+            <td>{clean(d.get('learnings', ''))}</td>
+            <td>{clean(d.get('status', ''))}</td>
+            <td>{clean(d.get('internship', {}).get('name', ''))}</td>
+        </tr>
+        """
 
-        internship = d.get("internship", {}).get("name", "")
-        pdf.cell(col_widths[5], 8, internship, border=1)
+    html_content = f"""
+    <html>
+    <head>
+        <style>
+            body {{
+                font-family: Arial;
+                margin: 20px;
+            }}
 
-        pdf.ln()
+            h2 {{
+                text-align: center;
+            }}
 
-    pdf.output(filename)
+            table {{
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 12px;
+            }}
+
+            th, td {{
+                border: 1px solid black;
+                padding: 6px;
+                vertical-align: top;
+                word-wrap: break-word;
+            }}
+
+            th {{
+                background-color: #4a4a4a;
+                color: white;
+            }}
+        </style>
+    </head>
+
+    <body>
+        <h2>Internship Diaries</h2>
+
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Learnings</th>
+                <th>Status</th>
+                <th>Internship</th>
+            </tr>
+            {rows}
+        </table>
+
+    </body>
+    </html>
+    """
+
+    HTML(string=html_content).write_pdf(filename)
 
 
 def missing_dates(diary):
