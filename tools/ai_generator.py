@@ -34,12 +34,12 @@ FORMAT:
 [
   {{
     "date": "YYYY-MM-DD",
-    "description": "short work done",
+    "description": "short two line work done",
     "hours": {hours_per_day},
     "skill_ids": {json.dumps(skill_ids)},
     "links": "",
     "blockers": "",
-    "learnings": "short learning"
+    "learnings": "short one line learning"
   }}
 ]
 """
