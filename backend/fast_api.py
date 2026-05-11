@@ -7,11 +7,14 @@ from threading import Lock
 from .rpc import VTURPC
 from .web_ui import router_ui
 
-app = FastAPI(title="VTU Bot RPC API", docs_url="/docs")
+app = FastAPI(
+    title="VTU Bot RPC API", 
+    # docs_url="/docs"
+)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=["http://localhost:3000"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
