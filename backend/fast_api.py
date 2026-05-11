@@ -5,6 +5,7 @@ from typing import List, Optional, Dict
 from threading import Lock
 
 from .rpc import VTURPC
+from .web_ui import router_ui
 
 app = FastAPI(title="VTU Bot RPC API", docs_url="/docs")
 
@@ -15,6 +16,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(router_ui, prefix="")
 
 # -------------------------
 # SESSION STORE (THREAD-SAFE)
