@@ -33,6 +33,9 @@ class VTURPC:
     def login(self, email:str, password: str):
         self.vtu_client = VTUClient(email=email, password=password)
         self.vtu_client.login()
+
+        self.fetch_internship()
+
         return {"message": "Login successful"}
 
 
@@ -80,8 +83,8 @@ class VTURPC:
             base_url="https://openrouter.ai/api/v1",
         )
 
-        entries = generate_entries(
-            vtu_client=ai_client,
+        generate_data = generate_entries(
+            client=ai_client,
             internship_domain=domain,
             dates=dates,
             hours_per_day=4,
@@ -89,7 +92,7 @@ class VTURPC:
         )
 
         enriched = []
-        for entry in entries:
+        for entry in generate_data["entries"]:
             entry["internship_id"] = int(self.internship_id)
             entry["mood_slider"] = 5
             enriched.append(entry)
@@ -97,9 +100,9 @@ class VTURPC:
         os.makedirs("data", exist_ok=True)
 
         with open("data/entries.json", "w") as f:
-            json.dump(enriched, f, indent=2)
+            json.dump({"entries": enriched}, f, indent=2)
 
-        return entries
+        return enriched
 
 
     # LOAD + VALIDATE
@@ -128,22 +131,23 @@ class VTURPC:
                 results.append(
                     {
                         "date": entry.get("date"),
+                        "internship": self.internship_name,
                         "status": response.get("message", "success"),
                     }
                 )
 
-                time.sleep(2)  # reduced delay for API usage
+                time.sleep(20)  # reduced delay for API usage
 
             except Exception as e:
                 results.append(
                     {
                         "date": entry.get("date"),
+                        "internship": self.internship_name,
                         "status": f"failed: {str(e)}",
                     }
                 )
 
         return {
             "message": "Bot execution completed",
-            "internship": self.internship_name,
             "results": results,
         }

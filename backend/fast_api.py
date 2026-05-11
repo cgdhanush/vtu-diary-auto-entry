@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends
+from fastapi import FastAPI, HTTPException, Depends, Header, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict
@@ -30,9 +30,10 @@ class LoginRequest(BaseModel):
     email: str
     password: str
 
+class UserRequest(BaseModel):
+    email: str
 
 class BotRequest(BaseModel):
-    email: str
     domain: str
     mode: str
     start_date: Optional[str] = None
@@ -53,14 +54,21 @@ def get_session(email: str) -> VTURPC:
 
     return rpc
 
-def get_rpc():
+
+# Proper FastAPI dependency wrapper
+def get_rpc(email: str = Query(...)) -> VTURPC:
+    return get_session(email)
+
+
+def get_rpc_unauth():
     return VTURPC()
+
 
 # -------------------------
 # LOGIN
 # -------------------------
 @app.post("/api/auth/login")
-def login(req: LoginRequest):
+async def login(req: LoginRequest):
     try:
         rpc = VTURPC()
         rpc.login(req.email, req.password)
@@ -78,10 +86,10 @@ def login(req: LoginRequest):
 # GENERATE
 # -------------------------
 @app.post("/api/generate")
-def generate(req: BotRequest, rpc: VTURPC = Depends(get_rpc)):
-    try:
-        rpc.fetch_internship()
+async def generate(req: BotRequest, email: str = Header(...)):
+    rpc = get_session(email)
 
+    try:
         entries = rpc.generate(
             domain=req.domain,
             mode=req.mode,
@@ -91,7 +99,7 @@ def generate(req: BotRequest, rpc: VTURPC = Depends(get_rpc)):
             skills=req.skills,
         )
 
-        return {"entries": entries}
+        return {"message": "Generation Success", "entries": entries}
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -101,19 +109,10 @@ def generate(req: BotRequest, rpc: VTURPC = Depends(get_rpc)):
 # RUN BOT (USES SESSION)
 # -------------------------
 @app.post("/api/run-bot")
-def run_bot(req: BotRequest):
+async def run_bot(email: str = Header(...)):
+    rpc = get_session(email)
+
     try:
-        rpc = get_session(req.email)
-
-        rpc.generate(
-            domain=req.domain,
-            mode=req.mode,
-            start_date=req.start_date,
-            end_date=req.end_date,
-            dates=req.dates,
-            skills=req.skills,
-        )
-
         return rpc.run_bot()
 
     except Exception as e:
@@ -121,32 +120,14 @@ def run_bot(req: BotRequest):
 
 
 # -------------------------
-# GET ENTRIES (USES SESSION)
+# GET ENTRIES
 # -------------------------
 @app.get("/api/entries")
-def get_entries(rpc: VTURPC = Depends(get_rpc)):
+async def get_entries():
+    rpc = get_rpc_unauth()
+
     try:
         return rpc.load_and_validate()
 
     except Exception as e:
-        print(e)
         raise HTTPException(status_code=400, detail=str(e))
-
-
-# -------------------------
-# LOGOUT
-# -------------------------
-@app.post("/api/auth/logout")
-def logout(req: LoginRequest):
-    with SESSION_LOCK:
-        SESSIONS.pop(req.email, None)
-
-    return {"message": "Logged out successfully"}
-
-
-# -------------------------
-# HEALTH CHECK
-# -------------------------
-@app.get("/api/ping")
-def health():
-    return {"status": "running"}
