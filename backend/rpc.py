@@ -28,6 +28,9 @@ class VTURPC:
         self.internship_id = None
         self.internship_name = None
 
+        self.default_skills = ["3"] # Python
+        self.default_hours_per_day = 4 # 4 hours per day
+
 
     # AUTH
     def login(self, email:str, password: str):
@@ -68,6 +71,7 @@ class VTURPC:
         start_date=None,
         end_date=None,
         dates=None,
+        hours_per_day=None,
         skills=None,
     ):
 
@@ -87,8 +91,8 @@ class VTURPC:
             client=ai_client,
             internship_domain=domain,
             dates=dates,
-            hours_per_day=4,
-            skill_ids=skills or [],
+            hours_per_day=hours_per_day or self.default_hours_per_day,
+            skill_ids=skills or self.default_skills,
         )
 
         enriched = []

@@ -17,6 +17,7 @@ interface GenerateRequest {
   start_date?: string;
   end_date?: string;
   dates?: string[];
+  hours_per_day?: number;
   skills?: string[];
 }
 
@@ -26,6 +27,7 @@ function EntryGenerator({ setMessage, setEntries, disabled }: Props) {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [dates, setDates] = useState("");
+  const [hoursPerDay, setHoursPerDay] = useState<number | "">("");
   const [skills, setSkills] = useState("");
 
   const handleGenerate = async () => {
@@ -50,6 +52,10 @@ function EntryGenerator({ setMessage, setEntries, disabled }: Props) {
           .split(",")
           .map((s) => s.trim())
           .filter(Boolean);
+      }
+
+      if (hoursPerDay) {
+        requestData.hours_per_day = hoursPerDay;
       }
 
       const response = await apiClient.post("/generate", requestData);
@@ -80,10 +86,7 @@ function EntryGenerator({ setMessage, setEntries, disabled }: Props) {
         onChange={(e) => setDomain(e.target.value)}
       />
 
-      <select
-        value={mode}
-        onChange={(e) => setMode(e.target.value as Mode)}
-      >
+      <select value={mode} onChange={(e) => setMode(e.target.value as Mode)}>
         <option value="range">Date Range</option>
         <option value="list">Date List</option>
       </select>
@@ -112,13 +115,36 @@ function EntryGenerator({ setMessage, setEntries, disabled }: Props) {
       )}
 
       <input
+        type="number"
+        min={1}
+        placeholder="Hours Per Day"
+        value={hoursPerDay}
+        onChange={(e) => {
+          const val = e.target.value;
+
+          if (val === "") {
+            setHoursPerDay("");
+            return;
+          }
+
+          const num = Number(val);
+
+          if (num >= 1) {
+            setHoursPerDay(num);
+          }
+        }}
+      />
+
+      <input
         type="text"
         placeholder="Skills (comma separated)"
         value={skills}
         onChange={(e) => setSkills(e.target.value)}
       />
 
-      <button onClick={handleGenerate} disabled={disabled}>Generate Entries</button>
+      <button onClick={handleGenerate} disabled={disabled}>
+        Generate Entries
+      </button>
     </div>
   );
 }

@@ -45,6 +45,7 @@ class BotRequest(BaseModel):
     start_date: Optional[str] = None
     end_date: Optional[str] = None
     dates: Optional[List[str]] = None
+    hours_per_day: Optional[int] = None
     skills: Optional[List[str]] = None
 
 
@@ -102,6 +103,7 @@ async def generate(req: BotRequest, email: str = Header(...)):
             start_date=req.start_date,
             end_date=req.end_date,
             dates=req.dates,
+            hours_per_day=req.hours_per_day,
             skills=req.skills,
         )
 
