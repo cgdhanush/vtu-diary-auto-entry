@@ -10,14 +10,7 @@ body {
   margin: 0;
   font-family: "Poppins", sans-serif;
 
-  background: linear-gradient(
-    -45deg,
-    #020617,
-    #0f172a,
-    #111827,
-    #1e1b4b
-  );
-
+  background: linear-gradient(-45deg, #020617, #0f172a, #111827, #1e1b4b);
   background-size: 300% 300%;
   animation: gradientBG 18s ease infinite;
 
@@ -27,17 +20,9 @@ body {
 
 /* Animated background */
 @keyframes gradientBG {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* =========================
@@ -62,42 +47,28 @@ body {
   font-weight: 700;
   letter-spacing: 1px;
 
-  background: linear-gradient(
-    to right,
-    #f8fafc,
-    #94a3b8
-  );
-
+  background: linear-gradient(to right, #f8fafc, #94a3b8);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 /* =========================
-   TOP LAYOUT
+   TOP SECTION
 ========================= */
 
 .top-section {
   display: flex;
   gap: 25px;
-
   justify-content: center;
   align-items: stretch;
-
   flex-wrap: wrap;
 }
 
-/* =========================
-   GLASS CARDS
-========================= */
-
 .top-section > * {
   flex: 1 1 420px;
-
   max-width: 500px;
-  width: 100%;
 
   background: rgba(255, 255, 255, 0.05);
-
   border: 1px solid rgba(255, 255, 255, 0.08);
 
   backdrop-filter: blur(14px);
@@ -106,101 +77,50 @@ body {
   border-radius: 22px;
   padding: 28px;
 
-  box-shadow:
-    0 6px 24px rgba(0, 0, 0, 0.45),
-    inset 0 0 1px rgba(255, 255, 255, 0.08);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.45);
 
   transition: all 0.3s ease;
 }
 
-/* Hover animation */
 .top-section > *:hover {
   transform: translateY(-4px);
-
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.5),
-    0 0 18px rgba(59, 130, 246, 0.12);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 /* =========================
-   FORM SECTION
+   FORM
 ========================= */
 
 .form-section {
-  width: 100%;
-
   display: flex;
   flex-direction: column;
-
   gap: 14px;
 }
 
-/* Headings */
 .form-section h2 {
-  margin: 0 0 10px;
-
   text-align: center;
   font-size: 1.6rem;
-  font-weight: 600;
-
-  color: #f8fafc;
 }
-
-/* =========================
-   INPUTS
-========================= */
 
 .form-section input,
 .form-section select,
 .form-section textarea {
-  width: 100%;
-  max-width: 100%;
-
   padding: 14px 16px;
-
+  border-radius: 14px;
   border: none;
   outline: none;
 
-  border-radius: 14px;
-
-  font-size: 1rem;
-
   background: rgba(255, 255, 255, 0.07);
-
   color: white;
 
-  transition:
-    background 0.2s ease,
-    border 0.2s ease,
-    transform 0.2s ease;
+  transition: 0.2s;
 }
 
-/* Input focus */
 .form-section input:focus,
 .form-section select:focus,
 .form-section textarea:focus {
   background: rgba(255, 255, 255, 0.1);
-
-  border: 1px solid rgba(96, 165, 250, 0.4);
-
-  transform: scale(1.01);
-}
-
-/* Placeholder */
-.form-section input::placeholder,
-.form-section textarea::placeholder {
-  color: rgba(255, 255, 255, 0.55);
-}
-
-/* Date picker */
-.form-section input[type="date"] {
-  color-scheme: dark;
-}
-
-/* Dropdown option */
-select option {
-  background: #111827;
-  color: white;
+  outline: 1px solid rgba(96, 165, 250, 0.4);
 }
 
 /* =========================
@@ -208,66 +128,23 @@ select option {
 ========================= */
 
 .form-section button {
-  width: 100%;
-
   margin-top: 8px;
   padding: 14px;
 
   border: none;
   border-radius: 14px;
 
-  font-size: 1rem;
   font-weight: 600;
-
-  color: white;
-
   cursor: pointer;
 
-  background: linear-gradient(
-    135deg,
-    #1d4ed8,
-    #5b21b6
-  );
+  color: white;
+  background: linear-gradient(135deg, #1d4ed8, #5b21b6);
 
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-
-  box-shadow:
-    0 4px 14px rgba(37, 99, 235, 0.25);
+  transition: 0.2s;
 }
 
-/* Button hover */
 .form-section button:hover {
   transform: translateY(-2px);
-
-  box-shadow:
-    0 6px 18px rgba(91, 33, 182, 0.3);
-}
-
-/* Button click */
-.form-section button:active {
-  transform: scale(0.98);
-}
-
-/* =========================
-   MESSAGE BOX
-========================= */
-
-.message-box {
-  margin-top: 25px;
-  padding: 16px 20px;
-
-  background: rgba(34, 197, 94, 0.1);
-
-  border: 1px solid rgba(34, 197, 94, 0.25);
-
-  border-radius: 14px;
-
-  text-align: center;
-  font-weight: 500;
-
-  backdrop-filter: blur(10px);
 }
 
 /* =========================
@@ -278,17 +155,88 @@ select option {
   margin-top: 35px;
 
   background: rgba(255, 255, 255, 0.05);
-
   border: 1px solid rgba(255, 255, 255, 0.08);
 
   border-radius: 22px;
-
   padding: 25px;
 
   backdrop-filter: blur(12px);
+}
 
-  box-shadow:
-    0 6px 24px rgba(0, 0, 0, 0.4);
+/* scroll container */
+.entries-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  max-height: 80vh;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+/* =========================
+   ENTRY CARD (SMALLER VERSION)
+========================= */
+
+.entry-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: 12px;
+
+  /* 🔽 reduced size */
+  padding: 10px 12px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  transition: 0.2s;
+}
+
+.entry-card:hover {
+  transform: translateY(-2px);
+}
+
+/* header */
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+}
+
+.entry-hours {
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.08);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+/* text sections */
+.entry-section {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.85rem;
+}
+
+/* =========================
+   SCROLL TEXT FIXED
+========================= */
+
+.scroll-box p {
+  max-height: 70px;
+
+  overflow-y: auto;
+  padding: 6px;
+  margin: 0;
+
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+
+  line-height: 1.3;
+  font-size: 0.85rem;
 }
 
 /* =========================
@@ -299,17 +247,9 @@ select option {
   width: 8px;
 }
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
 ::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.15);
   border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.25);
 }
 
 /* =========================
@@ -317,10 +257,6 @@ select option {
 ========================= */
 
 @media (max-width: 768px) {
-  .app {
-    padding: 25px 14px;
-  }
-
   .app h1 {
     font-size: 2.2rem;
   }
@@ -328,11 +264,11 @@ select option {
   .top-section {
     gap: 18px;
   }
-
-  .top-section > * {
-    padding: 22px;
-  }
 }
+
+/* =========================
+   RUN BUTTON
+========================= */
 
 .runbot-container {
   margin-top: 25px;
@@ -340,41 +276,17 @@ select option {
   justify-content: center;
 }
 
-/* =========================
-   Run Bot
-========================= */
-
 .run-btn {
   padding: 14px 40px;
-
-  border: none;
   border-radius: 14px;
 
-  font-size: 1.1rem;
   font-weight: 700;
-
   cursor: pointer;
 
   color: white;
-
-  background: linear-gradient(
-    135deg,
-    #f97316,
-    #ef4444
-  );
-
-  box-shadow: 0 8px 20px rgba(249, 115, 22, 0.3);
-
-  transition: all 0.25s ease;
+  background: linear-gradient(135deg, #f97316, #ef4444);
 }
 
 .run-btn:hover {
-  transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 12px 28px rgba(239, 68, 68, 0.4);
-}
-
-.run-btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
+  transform: scale(1.03);
 }
