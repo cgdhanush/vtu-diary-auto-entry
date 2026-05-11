@@ -8,36 +8,25 @@ from .rpc import VTURPC
 from .web_ui import router_ui
 
 app = FastAPI(
-    title="VTU Bot RPC API", 
+    title="VTU Bot RPC API",
     # docs_url="/docs"
 )
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
-app.include_router(router_ui, prefix="")
-
-# -------------------------
 # SESSION STORE (THREAD-SAFE)
-# -------------------------
 SESSIONS: Dict[str, VTURPC] = {}
 SESSION_LOCK = Lock()
 
 
-# -------------------------
 # MODELS
-# -------------------------
 class LoginRequest(BaseModel):
     email: str
     password: str
 
+
 class UserRequest(BaseModel):
     email: str
+
 
 class BotRequest(BaseModel):
     domain: str
@@ -49,9 +38,7 @@ class BotRequest(BaseModel):
     skills: Optional[List[str]] = None
 
 
-# -------------------------
 # DEPENDENCY
-# -------------------------
 def get_session(email: str) -> VTURPC:
     with SESSION_LOCK:
         rpc = SESSIONS.get(email)
@@ -71,9 +58,7 @@ def get_rpc_unauth():
     return VTURPC()
 
 
-# -------------------------
 # LOGIN
-# -------------------------
 @app.post("/api/auth/login")
 async def login(req: LoginRequest):
     try:
@@ -89,9 +74,7 @@ async def login(req: LoginRequest):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-# -------------------------
 # GENERATE
-# -------------------------
 @app.post("/api/generate")
 async def generate(req: BotRequest, email: str = Header(...)):
     rpc = get_session(email)
@@ -113,9 +96,7 @@ async def generate(req: BotRequest, email: str = Header(...)):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-# -------------------------
 # RUN BOT (USES SESSION)
-# -------------------------
 @app.post("/api/run-bot")
 async def run_bot(email: str = Header(...)):
     rpc = get_session(email)
@@ -127,9 +108,7 @@ async def run_bot(email: str = Header(...)):
         raise HTTPException(status_code=400, detail=str(e))
 
 
-# -------------------------
 # GET ENTRIES
-# -------------------------
 @app.get("/api/entries")
 async def get_entries():
     rpc = get_rpc_unauth()
@@ -139,3 +118,15 @@ async def get_entries():
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+# added Default UI
+app.include_router(router_ui, prefix="")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
