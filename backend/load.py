@@ -29,6 +29,7 @@ def load_entries():
 def validate_entry(entry):
     required_keys = {
         "date": str,
+        "internship_id": int,
         "description": str,
         "hours": (int, float),
         "links": str,

@@ -1,5 +1,7 @@
 weasyprint
 tqdm
 requests
-openrouter
+openai
 python-dotenv
+fastapi
+uvicorn[standard]

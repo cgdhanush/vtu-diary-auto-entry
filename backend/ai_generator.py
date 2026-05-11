@@ -1,7 +1,7 @@
 import json
 from openai import OpenAI
 
-from tools.utils import safe_json_load
+from .utils import safe_json_load
 
 
 

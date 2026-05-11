@@ -45,7 +45,9 @@ def generate_dates(start_date, end_date):
 
 
 def safe_json_load(content: str):
-    """Robust JSON parser fallback"""
+    """
+    Robust JSON parser fallback
+    """
     content = content.strip()
 
     # remove markdown fences
