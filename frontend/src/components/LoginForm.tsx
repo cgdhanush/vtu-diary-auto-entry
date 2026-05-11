@@ -4,20 +4,23 @@ import axios from "axios";
 
 interface Props {
   setMessage: (msg: string) => void;
+  onLoginSuccess?: () => void;
 }
 
-function LoginForm({ setMessage }: Props) {
+function LoginForm({ setMessage, onLoginSuccess }: Props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   const handleLogin = async () => {
     try {
-      const response = await apiClient.post("/login", {
+      const response = await apiClient.post("/auth/login", {
         email,
         password,
       });
 
+      sessionStorage.setItem("x-user-email", email);
+      onLoginSuccess?.();
       setMessage(response.data.message);
       setError(null);
     } catch (err: unknown) {

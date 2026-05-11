@@ -6,6 +6,7 @@ import type { Entry } from "./EntriesBox";
 interface Props {
   setMessage: (msg: string) => void;
   setEntries: (entries: Entry[]) => void;
+  disabled?: boolean;
 }
 
 type Mode = "range" | "list";
@@ -19,7 +20,7 @@ interface GenerateRequest {
   skills?: string[];
 }
 
-function EntryGenerator({ setMessage, setEntries }: Props) {
+function EntryGenerator({ setMessage, setEntries, disabled }: Props) {
   const [domain, setDomain] = useState("");
   const [mode, setMode] = useState<Mode>("range");
   const [startDate, setStartDate] = useState("");
@@ -117,7 +118,7 @@ function EntryGenerator({ setMessage, setEntries }: Props) {
         onChange={(e) => setSkills(e.target.value)}
       />
 
-      <button onClick={handleGenerate}>Generate Entries</button>
+      <button onClick={handleGenerate} disabled={disabled}>Generate Entries</button>
     </div>
   );
 }

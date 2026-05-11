@@ -1,5 +1,3 @@
-// src/api/apiClient.ts
-
 import axios from "axios";
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || "/api/v1";
@@ -9,6 +7,16 @@ const apiClient = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
+});
+
+apiClient.interceptors.request.use((config) => {
+  const email = sessionStorage.getItem("x-user-email");
+
+  if (email) {
+    config.headers.email = email;
+  }
+
+  return config;
 });
 
 export default apiClient;
