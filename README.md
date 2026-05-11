@@ -34,8 +34,6 @@ Then open:
 http://127.0.0.1:8000
 ```
 
----
-
 ## ✨ Features
 
 * 🤖 AI-generated internship diary entries
@@ -47,7 +45,6 @@ http://127.0.0.1:8000
 * ⏳ Built-in delay between requests (rate-safe)
 * 📊 Clean console logs for tracking progress
 
----
 
 ## 📦 Installation (Alternative)
 
@@ -56,8 +53,6 @@ If dependencies are not installed:
 ```bash
 pip install -r requirements.txt
 ```
-
----
 
 ## 🔑 Setup
 
@@ -70,7 +65,6 @@ OPENROUTER_API_KEY=sk-or-v1-your-key-here
 Get API key:
 [https://openrouter.ai/keys](https://openrouter.ai/keys)
 
----
 
 ## 🧠 How It Works
 
@@ -86,18 +80,14 @@ Get API key:
 5. Entries are validated
 6. Automatically uploaded to VTU
 
----
 
-## 📝 Run Command Summary
+## Homepage Overview
 
-```bash
-git clone https://github.com/cgdhanush/vtu-diary-auto-entry.git
-cd vtu-diary-auto-entry
-pip install -r requirements.txt
-python main.py
-```
+<p float="left">
+  <img src="./assets/img1.png" width="48%" />
+  <img src="./assets/img2.png" width="48%" />
+</p>
 
----
 
 ## 🧑‍💻 Author
 
