@@ -1,121 +1,107 @@
 # 🤖 VTU AI Internship Diary Automator
 
-An AI tool that auto-generates and uploads VTU internship diary entries using OpenRouter AI.
+An AI tool that automatically generates and uploads VTU internship diary entries using OpenRouter AI.
 
 No manual form filling. No repetitive work. Just run and relax ☕️
 
+---
 
-## ✨ Features
+## 🚀 Quick Start (Run in 3 Steps)
 
-- 🤖 AI-generated internship diary entries
-- 📅 Custom date range generation
-- 🎯 Domain-specific diary creation (Cyber Security, Web Dev, etc.)
-- 🔐 Secure login using email & password
-- 📤 Auto-submit multiple internship diary entries
-- 🛡️ Error handling so one failure won’t stop the whole run
-- ⏳ Built-in delay between requests (rate-safe)
-- 📊 Clean console output for tracking submissions
-
-
-## 🚀 Usage
-
-Clone the repository:
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/cgdhanush/vtu-diary-auto-entry.git
 ```
 
-Move into the project directory:
+### 2. Move into the project folder
 
 ```bash
 cd vtu-diary-auto-entry
 ```
 
-### 2. Install dependencies
-
-```bash
-pip install -r requirements.txt
-```
-
-## 🔑 Setup
-
-### Create a `.env` file:
-
-```env
-OPENROUTER_API_KEY=sk-or-v1-your-key-here
-```
-
-Get API key from:
-[OpenRouter API Keys](https://openrouter.ai/keys)
-
-Run the script:
+### 3. Run the application
 
 ```bash
 python main.py
 ```
 
-## 🧠 How It Works
+That’s it. The web server will start automatically.
 
-1. User logs into VTU portal
-2. Selects AI generation mode
-3. Inputs:
-   - Internship domain
-   - Start & end date
-   - Hours per day
-   - Skills ID( see skills.md)
+Then open:
 
-4. AI generates structured diary entries
-5. Entries are validated
-6. Entries are automatically uploaded to VTU
-
-## 📝 Example Entry Format
-
-```json
-[
-  {
-    "date": "2026-04-13",
-    "description": "Worked on vulnerability assessment lifecycle and analysis",
-    "hours": 4,
-    "links": "",
-    "blockers": "",
-    "learnings": "Understood vulnerability identification and prioritization",
-    "internship_id": 12345
-  }
-]
+```
+http://127.0.0.1:8000
 ```
 
-## Internship Diary Tool
+---
 
-### ▶️ How to Run
+## ✨ Features
 
-Run the script:
+* 🤖 AI-generated internship diary entries
+* 📅 Custom date range generation
+* 🎯 Domain-specific diary creation (Cyber Security, Web Dev, etc.)
+* 🔐 Secure login using email & password
+* 📤 Auto-submit multiple internship diary entries
+* 🛡️ Error handling (one failure won’t stop the process)
+* ⏳ Built-in delay between requests (rate-safe)
+* 📊 Clean console logs for tracking progress
+
+---
+
+## 📦 Installation (Alternative)
+
+If dependencies are not installed:
 
 ```bash
-python diary.py
+pip install -r requirements.txt
 ```
 
-### 📋 Menu Options
+---
 
-After login:
+## 🔑 Setup
 
+Create a `.env` file:
+
+```env
+OPENROUTER_API_KEY=sk-or-v1-your-key-here
 ```
-1) Diaries to pdf
-2) Check missing dates
-3) Exit
+
+Get API key:
+[https://openrouter.ai/keys](https://openrouter.ai/keys)
+
+---
+
+## 🧠 How It Works
+
+1. Login to VTU portal
+2. Select AI generation mode
+3. Enter:
+
+   * Internship domain
+   * Date range
+   * Hours per day
+   * Skill IDs
+4. AI generates entries
+5. Entries are validated
+6. Automatically uploaded to VTU
+
+---
+
+## 📝 Run Command Summary
+
+```bash
+git clone https://github.com/cgdhanush/vtu-diary-auto-entry.git
+cd vtu-diary-auto-entry
+pip install -r requirements.txt
+python main.py
 ```
 
-## ⚠️ Notes
-
-- Keep your login credentials safe 🔐
-- Do not reduce delay too much (avoid API blocking)
-- Ensure `Entries` is properly formatted before running
-
-## 💡 Future Ideas
-
-- 📊 Progress dashboard
+---
 
 ## 🧑‍💻 Author
 
-- Name: Dhanush C G
-- GitHub: https://github.com/cgdhanush
-- Built with Python 🐍 to kill boring manual work.
+* **Dhanush C G**
+* GitHub: [https://github.com/cgdhanush](https://github.com/cgdhanush)
+* Built with Python 🐍 to eliminate boring manual work
+
