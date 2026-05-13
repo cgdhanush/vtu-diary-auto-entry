@@ -32,6 +32,10 @@ function EntryGenerator({ setMessage, setEntries, disabled }: Props) {
 
   const handleGenerate = async () => {
     try {
+      if (disabled) {
+        setMessage("Please login first");
+        return;
+      }
       const requestData: GenerateRequest = {
         domain,
         mode,
@@ -142,7 +146,10 @@ function EntryGenerator({ setMessage, setEntries, disabled }: Props) {
         onChange={(e) => setSkills(e.target.value)}
       />
 
-      <button onClick={handleGenerate} disabled={disabled}>
+      <button
+        onClick={handleGenerate}
+        className={!disabled ? "" : "disabled-btn"}
+      >
         Generate Entries
       </button>
     </div>
