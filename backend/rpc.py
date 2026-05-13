@@ -27,20 +27,19 @@ class VTURPC:
         self.vtu_client = None
         self.internship_id = None
         self.internship_name = None
+        self.results = []
 
-        self.default_skills = ["3"] # Python
-        self.default_hours_per_day = 4 # 4 hours per day
-
+        self.default_skills = ["3"]  # Python
+        self.default_hours_per_day = 4  # 4 hours per day
 
     # AUTH
-    def login(self, email:str, password: str):
+    def login(self, email: str, password: str):
         self.vtu_client = VTUClient(email=email, password=password)
         self.vtu_client.login()
 
         self.fetch_internship()
 
         return {"message": "Login successful"}
-
 
     # FETCH INTERNSHIP
     def fetch_internship(self):
@@ -61,7 +60,6 @@ class VTURPC:
             "internship_id": self.internship_id,
             "internship_name": self.internship_name,
         }
-
 
     # GENERATE ENTRIES
     def generate(
@@ -108,21 +106,21 @@ class VTURPC:
 
         return enriched
 
-
     # LOAD + VALIDATE
     def load_and_validate(self):
         data = load_entries()
         entries = data.get("entries", [])
-        
+
         validate_all_entries(entries)
         return entries
 
+    # Return result
+    def get_results(self):
+        return self.results.copy()
 
     # SUBMIT ENTRIES (BOT RUN)
     def run_bot(self):
         entries = self.load_and_validate()
-
-        results = []
 
         for entry in entries:
             try:
@@ -132,7 +130,7 @@ class VTURPC:
                     json=entry,
                 )
 
-                results.append(
+                self.results.append(
                     {
                         "date": entry.get("date"),
                         "internship": self.internship_name,
@@ -143,7 +141,7 @@ class VTURPC:
                 time.sleep(20)  # reduced delay for API usage
 
             except Exception as e:
-                results.append(
+                self.results.append(
                     {
                         "date": entry.get("date"),
                         "internship": self.internship_name,
@@ -151,7 +149,4 @@ class VTURPC:
                     }
                 )
 
-        return {
-            "message": "Bot execution completed",
-            "results": results,
-        }
+        return {"message": "Bot execution completed"}

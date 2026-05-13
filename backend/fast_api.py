@@ -119,6 +119,16 @@ async def get_entries():
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+# GET ENTRIES
+@app.get("/api/results")
+async def get_results():
+    rpc = get_rpc_unauth()
+
+    try:
+        return rpc.get_results()
+
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 # added Default UI
 app.include_router(router_ui, prefix="")
