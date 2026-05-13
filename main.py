@@ -12,10 +12,13 @@ class UvicornServer(uvicorn.Server):
 
 if __name__ == "__main__":
 
+    host = "127.0.0.1"
+    port = 8000
+
     uvconfig = uvicorn.Config(
         app,
-        host="127.0.0.1",
-        port=8000,
+        host=host,
+        port=port,
         log_level="info",
         use_colors=False,
         ws_ping_interval=None,
@@ -26,8 +29,8 @@ if __name__ == "__main__":
 
         uvicorn.run(
             app,
-            host="127.0.0.1",
-            port=8000,
+            host=host,
+            port=port,
         )
     except Exception:
         print("API server failed to start")
