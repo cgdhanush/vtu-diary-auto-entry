@@ -4,6 +4,7 @@ import EntryGenerator from "./components/EntryGenerator";
 import EntriesBox, { type Entry } from "./components/EntriesBox";
 import apiClient from "./service/apiClient";
 import "./App.css";
+import Navbar from "./components/Navbar";
 
 type Result = {
   date: string;
@@ -97,7 +98,7 @@ function App() {
   return (
     <div className="app">
 
-
+      <Navbar isLoggedIn={isLoggedIn} isBotRunning={isBotRunning} />
       <h1>VTU Diary Auto Entry</h1>
 
       {/* TOP SECTION */}
