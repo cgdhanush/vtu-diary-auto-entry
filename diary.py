@@ -1,5 +1,5 @@
 from tqdm import tqdm
-from tools.client import VTUClient
+from backend.vtu_client import VTUClient
 from datetime import datetime, timedelta
 from weasyprint import HTML
 
