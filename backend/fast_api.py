@@ -37,6 +37,9 @@ class BotRequest(BaseModel):
     hours_per_day: Optional[int] = None
     skills: Optional[List[str]] = None
 
+class ApiKeyRequest(BaseModel):
+    api_key: str
+    
 
 # DEPENDENCY
 def get_session(email: str) -> VTURPC:
@@ -129,6 +132,13 @@ async def get_results():
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+@app.post("/api-key")
+async def save_api_key(request: ApiKeyRequest):
+    rpc = get_rpc_unauth()
+    
+    rpc.set_api_key(request.api_key)
+    return {"message": "API key saved successfully"}
 
 # added Default UI
 app.include_router(router_ui, prefix="")

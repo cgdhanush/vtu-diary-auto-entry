@@ -31,7 +31,12 @@ class VTURPC:
 
         self.default_skills = ["3"]  # Python
         self.default_hours_per_day = 4  # 4 hours per day
-
+        
+        self.__api_key = os.getenv("OPENROUTER_API_KEY")
+    
+    def set_api_key(self, api_key: str):
+        self.__api_key = api_key
+    
     # AUTH
     def login(self, email: str, password: str):
         self.vtu_client = VTUClient(email=email, password=password)
@@ -81,7 +86,7 @@ class VTURPC:
             raise Exception("Invalid mode")
 
         ai_client = OpenAI(
-            api_key=os.getenv("OPENROUTER_API_KEY"),
+            api_key=self.__api_key,
             base_url="https://openrouter.ai/api/v1",
         )
 
