@@ -5,6 +5,7 @@ import EntriesBox, { type Entry } from "./components/EntriesBox";
 import apiClient from "./service/apiClient";
 import "./App.css";
 import Navbar from "./components/Navbar";
+import OpenRouterApiKeyForm from "./components/OpenRouterApiKeyForm";
 
 type Result = {
   date: string;
@@ -97,13 +98,11 @@ function App() {
 
   return (
     <div className="app">
-
       <Navbar isLoggedIn={isLoggedIn} isBotRunning={isBotRunning} />
       <h1>VTU Diary Auto Entry</h1>
 
       {/* TOP SECTION */}
       <div className="top-section">
-
         {/* LOGIN CARD */}
         <div className="section-card">
           <h2>Login</h2>
@@ -111,6 +110,10 @@ function App() {
           <LoginForm
             setMessage={setMessage}
             onLoginSuccess={() => setIsLoggedIn(true)}
+          />
+
+          <OpenRouterApiKeyForm
+          setMessage={setMessage} 
           />
         </div>
 
@@ -124,16 +127,11 @@ function App() {
             disabled={!isLoggedIn}
           />
         </div>
-
       </div>
 
       {/* RUN BOT */}
       <div className="runbot-container">
-        <button
-          className="run-btn"
-          onClick={handleRunBot}
-          disabled={loading}
-        >
+        <button className="run-btn" onClick={handleRunBot} disabled={loading}>
           {loading ? "Running Bot..." : "🚀 Run Bot"}
         </button>
 
